@@ -30,4 +30,4 @@ go.work
 .vscode
 
 # Special docs format for internal use only
-*.oso
+docs/*.dot
