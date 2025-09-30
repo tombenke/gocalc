@@ -3,40 +3,40 @@ graph {
     fontname="Helvetica,Arial,sans-serif"
     node [fontname="Helvetica,Arial,sans-serif" margin=0.1 fontcolor=blue fontsize=8 width=0.5 style=filled fillcolor=white color=blue]
     edge [fontname="Helvetica,Arial,sans-serif"]
-	"4a5b5830-0e2d-483b-92c1-9e60fd33ec36" [label=" OPERATION " shape=box]
-"4a5b5830-0e2d-483b-92c1-9e60fd33ec36" -- "b94ef8a3-5072-48b5-8ba1-4681eff22148"
-"b94ef8a3-5072-48b5-8ba1-4681eff22148" [label=" OPERATION " shape=box]
-"b94ef8a3-5072-48b5-8ba1-4681eff22148" -- "978cc3e4-7ce5-4aeb-bb27-8a434e7c5787"
-"978cc3e4-7ce5-4aeb-bb27-8a434e7c5787" [label=" LITERAL " shape=box]
-"6d1b51c4-2fea-47be-ab1f-3ecee1add577" [label="10.00" color=green fontcolor=green fontsize=12]
-"978cc3e4-7ce5-4aeb-bb27-8a434e7c5787" -- "6d1b51c4-2fea-47be-ab1f-3ecee1add577"
-"b49c3d85-aa61-45ed-940c-b637e960fa9b" [label="*" color=red fontcolor=red fontsize=12]
-"b94ef8a3-5072-48b5-8ba1-4681eff22148" -- "b49c3d85-aa61-45ed-940c-b637e960fa9b"
-"b94ef8a3-5072-48b5-8ba1-4681eff22148" -- "dfbb7069-c662-4693-8b28-a81c57d298bb"
-"dfbb7069-c662-4693-8b28-a81c57d298bb" [label=" LITERAL " shape=box]
-"c0489d87-8c78-4eaf-8870-50ed5be507fe" [label="2.00" color=green fontcolor=green fontsize=12]
-"dfbb7069-c662-4693-8b28-a81c57d298bb" -- "c0489d87-8c78-4eaf-8870-50ed5be507fe"
-"0c7fcd2a-c7a7-4e16-807b-9be7df46bf1c" [label="+" color=red fontcolor=red fontsize=12]
-"4a5b5830-0e2d-483b-92c1-9e60fd33ec36" -- "0c7fcd2a-c7a7-4e16-807b-9be7df46bf1c"
-"4a5b5830-0e2d-483b-92c1-9e60fd33ec36" -- "c2872dd4-1364-42f5-8591-06106733de2b"
-"c2872dd4-1364-42f5-8591-06106733de2b" [label=" OPERATION " shape=box]
-"c2872dd4-1364-42f5-8591-06106733de2b" -- "76a0437a-0adc-4370-91db-8579feb2de76"
-"76a0437a-0adc-4370-91db-8579feb2de76" [label=" OPERATION " shape=box]
-"76a0437a-0adc-4370-91db-8579feb2de76" -- "a039b996-efb5-4e13-bb3f-3f7d692a2eb0"
-"a039b996-efb5-4e13-bb3f-3f7d692a2eb0" [label=" LITERAL " shape=box]
-"95c53cd7-1f26-4d8e-b9d7-a38b750a1d2b" [label="50.00" color=green fontcolor=green fontsize=12]
-"a039b996-efb5-4e13-bb3f-3f7d692a2eb0" -- "95c53cd7-1f26-4d8e-b9d7-a38b750a1d2b"
-"8d2f0a8e-e126-41db-8c8e-46e7aa76116d" [label="/" color=red fontcolor=red fontsize=12]
-"76a0437a-0adc-4370-91db-8579feb2de76" -- "8d2f0a8e-e126-41db-8c8e-46e7aa76116d"
-"76a0437a-0adc-4370-91db-8579feb2de76" -- "78b4e5fa-3406-4eb6-8726-d495264ad1a0"
-"78b4e5fa-3406-4eb6-8726-d495264ad1a0" [label=" LITERAL " shape=box]
-"beff4b61-8fb8-415c-a67f-0dc943944401" [label="3.14" color=green fontcolor=green fontsize=12]
-"78b4e5fa-3406-4eb6-8726-d495264ad1a0" -- "beff4b61-8fb8-415c-a67f-0dc943944401"
-"45825a4d-cd4c-4dd2-b694-45ccafcee6a0" [label="-" color=red fontcolor=red fontsize=12]
-"c2872dd4-1364-42f5-8591-06106733de2b" -- "45825a4d-cd4c-4dd2-b694-45ccafcee6a0"
-"c2872dd4-1364-42f5-8591-06106733de2b" -- "c3b32965-6b60-451c-a365-2948b03b9e55"
-"c3b32965-6b60-451c-a365-2948b03b9e55" [label=" LITERAL " shape=box]
-"7f3613be-c5b6-4db6-b205-4ebef8f1c444" [label="2.00" color=green fontcolor=green fontsize=12]
-"c3b32965-6b60-451c-a365-2948b03b9e55" -- "7f3613be-c5b6-4db6-b205-4ebef8f1c444"
+	"edfdc381-e6ee-463c-bd9e-5352b3b8f902" [label=" OPERATION " shape=box]
+"edfdc381-e6ee-463c-bd9e-5352b3b8f902" -- "019aeff5-2c1f-4778-9f6d-50d1d3028e34"
+"019aeff5-2c1f-4778-9f6d-50d1d3028e34" [label=" OPERATION " shape=box]
+"019aeff5-2c1f-4778-9f6d-50d1d3028e34" -- "ba2a1f8c-1165-454a-a2ee-7d2865b64d77"
+"ba2a1f8c-1165-454a-a2ee-7d2865b64d77" [label=" LITERAL " shape=box]
+"0b181e38-7654-44c4-999e-b4c1f9868c3d" [label="10.00" color=green fontcolor=green fontsize=12]
+"ba2a1f8c-1165-454a-a2ee-7d2865b64d77" -- "0b181e38-7654-44c4-999e-b4c1f9868c3d"
+"af1f9111-095e-400d-98d6-d409a0ae994c" [label="*" color=red fontcolor=red fontsize=12]
+"019aeff5-2c1f-4778-9f6d-50d1d3028e34" -- "af1f9111-095e-400d-98d6-d409a0ae994c"
+"019aeff5-2c1f-4778-9f6d-50d1d3028e34" -- "69a1f99a-58f5-47c0-bbd9-a9bfe9a1079a"
+"69a1f99a-58f5-47c0-bbd9-a9bfe9a1079a" [label=" LITERAL " shape=box]
+"3a72e2c4-2a23-4aaa-a0ca-7bd444db30be" [label="2.00" color=green fontcolor=green fontsize=12]
+"69a1f99a-58f5-47c0-bbd9-a9bfe9a1079a" -- "3a72e2c4-2a23-4aaa-a0ca-7bd444db30be"
+"d6b588e5-ed4d-47d0-b186-c83091b1f492" [label="+" color=red fontcolor=red fontsize=12]
+"edfdc381-e6ee-463c-bd9e-5352b3b8f902" -- "d6b588e5-ed4d-47d0-b186-c83091b1f492"
+"edfdc381-e6ee-463c-bd9e-5352b3b8f902" -- "02c2a86f-ca08-44b1-a710-5ebf46e70bd3"
+"02c2a86f-ca08-44b1-a710-5ebf46e70bd3" [label=" OPERATION " shape=box]
+"02c2a86f-ca08-44b1-a710-5ebf46e70bd3" -- "e151f382-9bcf-4682-8ebd-53e8cc8dfceb"
+"e151f382-9bcf-4682-8ebd-53e8cc8dfceb" [label=" OPERATION " shape=box]
+"e151f382-9bcf-4682-8ebd-53e8cc8dfceb" -- "74e04f8b-9790-4079-85b8-e8bdc62355d7"
+"74e04f8b-9790-4079-85b8-e8bdc62355d7" [label=" LITERAL " shape=box]
+"73c8401a-36a7-4dfa-99b7-3a069ce86d59" [label="50.00" color=green fontcolor=green fontsize=12]
+"74e04f8b-9790-4079-85b8-e8bdc62355d7" -- "73c8401a-36a7-4dfa-99b7-3a069ce86d59"
+"849038b5-3b16-4235-a44b-caa81bb4f1f6" [label="/" color=red fontcolor=red fontsize=12]
+"e151f382-9bcf-4682-8ebd-53e8cc8dfceb" -- "849038b5-3b16-4235-a44b-caa81bb4f1f6"
+"e151f382-9bcf-4682-8ebd-53e8cc8dfceb" -- "74c5ab86-3a7f-47c5-af71-29671b93a9e2"
+"74c5ab86-3a7f-47c5-af71-29671b93a9e2" [label=" LITERAL " shape=box]
+"3673175a-1da7-4a79-814f-9b7ec22f7028" [label="3.14" color=green fontcolor=green fontsize=12]
+"74c5ab86-3a7f-47c5-af71-29671b93a9e2" -- "3673175a-1da7-4a79-814f-9b7ec22f7028"
+"227f0dd5-081c-4cb4-bef2-0cee73277753" [label="-" color=red fontcolor=red fontsize=12]
+"02c2a86f-ca08-44b1-a710-5ebf46e70bd3" -- "227f0dd5-081c-4cb4-bef2-0cee73277753"
+"02c2a86f-ca08-44b1-a710-5ebf46e70bd3" -- "ed0d89ea-e29d-4557-9ace-7fcba6f7ad8e"
+"ed0d89ea-e29d-4557-9ace-7fcba6f7ad8e" [label=" LITERAL " shape=box]
+"8f100d37-a428-4d01-a42b-6db8307f435d" [label="2.00" color=green fontcolor=green fontsize=12]
+"ed0d89ea-e29d-4557-9ace-7fcba6f7ad8e" -- "8f100d37-a428-4d01-a42b-6db8307f435d"
 
 }
