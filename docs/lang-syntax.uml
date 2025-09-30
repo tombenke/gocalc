@@ -1,0 +1,22 @@
+@startebnf
+title micro-language example
+
+expression = literal | operation;
+
+operation = '(', expression, [' '], operator, [' '], expression, ')';
+
+operator = '+' | '-' | '*' | '/';
+
+literal = intNumber | realNumber;
+
+intNumber = [sign], digits;
+
+realNumber = [sign], digits, '.', [digits], [exponent];
+
+sign = '+' | '-';
+
+digits = '/^[0-9]+/';
+
+exponent = ('e' | 'E'), sign, intNumber;
+
+@endebnf
