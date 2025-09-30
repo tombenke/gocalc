@@ -3,40 +3,40 @@ graph {
     fontname="Helvetica,Arial,sans-serif"
     node [fontname="Helvetica,Arial,sans-serif" margin=0.1 fontcolor=blue fontsize=8 width=0.5 style=filled fillcolor=white color=blue]
     edge [fontname="Helvetica,Arial,sans-serif"]
-	"dc3272f5-487f-4c4a-94ba-af3df6f0b59d" [label=" OPERATION " shape=box]
-"dc3272f5-487f-4c4a-94ba-af3df6f0b59d" -- "5ce796a0-5a59-43e6-8415-ba6eaa2bfe8f"
-"5ce796a0-5a59-43e6-8415-ba6eaa2bfe8f" [label=" OPERATION " shape=box]
-"5ce796a0-5a59-43e6-8415-ba6eaa2bfe8f" -- "974543d9-f864-405f-82a5-718edb2a0749"
-"974543d9-f864-405f-82a5-718edb2a0749" [label=" LITERAL " shape=box]
-"90dc5340-ddaa-4210-a1d0-d41fe9bef31f" [label="10.00" color=green fontcolor=green fontsize=12]
-"974543d9-f864-405f-82a5-718edb2a0749" -- "90dc5340-ddaa-4210-a1d0-d41fe9bef31f"
-"012e9e62-560e-4771-9feb-3ef0f0348460" [label="*" color=red fontcolor=red fontsize=12]
-"5ce796a0-5a59-43e6-8415-ba6eaa2bfe8f" -- "012e9e62-560e-4771-9feb-3ef0f0348460"
-"5ce796a0-5a59-43e6-8415-ba6eaa2bfe8f" -- "ad4ea5bd-96b0-4c60-bec0-a7c1d3206d97"
-"ad4ea5bd-96b0-4c60-bec0-a7c1d3206d97" [label=" LITERAL " shape=box]
-"3bbad253-c9da-47a8-b104-a0a84481aeba" [label="2.00" color=green fontcolor=green fontsize=12]
-"ad4ea5bd-96b0-4c60-bec0-a7c1d3206d97" -- "3bbad253-c9da-47a8-b104-a0a84481aeba"
-"c9cf6e42-bc80-4a3c-b0be-a6d36a6104a5" [label="+" color=red fontcolor=red fontsize=12]
-"dc3272f5-487f-4c4a-94ba-af3df6f0b59d" -- "c9cf6e42-bc80-4a3c-b0be-a6d36a6104a5"
-"dc3272f5-487f-4c4a-94ba-af3df6f0b59d" -- "b2021ba5-3a38-47ef-97c9-1d75a294865e"
-"b2021ba5-3a38-47ef-97c9-1d75a294865e" [label=" OPERATION " shape=box]
-"b2021ba5-3a38-47ef-97c9-1d75a294865e" -- "97d1cb80-cf32-469a-9564-60e543f83a73"
-"97d1cb80-cf32-469a-9564-60e543f83a73" [label=" OPERATION " shape=box]
-"97d1cb80-cf32-469a-9564-60e543f83a73" -- "e5b1e94f-0d8e-43de-a439-cc16dcee4566"
-"e5b1e94f-0d8e-43de-a439-cc16dcee4566" [label=" LITERAL " shape=box]
-"bc4b8827-4a90-4af2-82c4-e7596955755a" [label="50.00" color=green fontcolor=green fontsize=12]
-"e5b1e94f-0d8e-43de-a439-cc16dcee4566" -- "bc4b8827-4a90-4af2-82c4-e7596955755a"
-"aea6ce60-2a8a-4898-aff3-e7286f456083" [label="/" color=red fontcolor=red fontsize=12]
-"97d1cb80-cf32-469a-9564-60e543f83a73" -- "aea6ce60-2a8a-4898-aff3-e7286f456083"
-"97d1cb80-cf32-469a-9564-60e543f83a73" -- "07e752df-8cef-4083-9c58-75ba0177a908"
-"07e752df-8cef-4083-9c58-75ba0177a908" [label=" LITERAL " shape=box]
-"3f700da6-9250-4972-af43-c5f4764151b9" [label="3.14" color=green fontcolor=green fontsize=12]
-"07e752df-8cef-4083-9c58-75ba0177a908" -- "3f700da6-9250-4972-af43-c5f4764151b9"
-"afcab817-75ad-43db-b4d3-cc3603270a0c" [label="-" color=red fontcolor=red fontsize=12]
-"b2021ba5-3a38-47ef-97c9-1d75a294865e" -- "afcab817-75ad-43db-b4d3-cc3603270a0c"
-"b2021ba5-3a38-47ef-97c9-1d75a294865e" -- "6b2beabe-790e-4c96-aa3b-a94143a842c3"
-"6b2beabe-790e-4c96-aa3b-a94143a842c3" [label=" LITERAL " shape=box]
-"a225d295-8591-4749-bdea-ac2e951356f3" [label="2.00" color=green fontcolor=green fontsize=12]
-"6b2beabe-790e-4c96-aa3b-a94143a842c3" -- "a225d295-8591-4749-bdea-ac2e951356f3"
+	"4a5b5830-0e2d-483b-92c1-9e60fd33ec36" [label=" OPERATION " shape=box]
+"4a5b5830-0e2d-483b-92c1-9e60fd33ec36" -- "b94ef8a3-5072-48b5-8ba1-4681eff22148"
+"b94ef8a3-5072-48b5-8ba1-4681eff22148" [label=" OPERATION " shape=box]
+"b94ef8a3-5072-48b5-8ba1-4681eff22148" -- "978cc3e4-7ce5-4aeb-bb27-8a434e7c5787"
+"978cc3e4-7ce5-4aeb-bb27-8a434e7c5787" [label=" LITERAL " shape=box]
+"6d1b51c4-2fea-47be-ab1f-3ecee1add577" [label="10.00" color=green fontcolor=green fontsize=12]
+"978cc3e4-7ce5-4aeb-bb27-8a434e7c5787" -- "6d1b51c4-2fea-47be-ab1f-3ecee1add577"
+"b49c3d85-aa61-45ed-940c-b637e960fa9b" [label="*" color=red fontcolor=red fontsize=12]
+"b94ef8a3-5072-48b5-8ba1-4681eff22148" -- "b49c3d85-aa61-45ed-940c-b637e960fa9b"
+"b94ef8a3-5072-48b5-8ba1-4681eff22148" -- "dfbb7069-c662-4693-8b28-a81c57d298bb"
+"dfbb7069-c662-4693-8b28-a81c57d298bb" [label=" LITERAL " shape=box]
+"c0489d87-8c78-4eaf-8870-50ed5be507fe" [label="2.00" color=green fontcolor=green fontsize=12]
+"dfbb7069-c662-4693-8b28-a81c57d298bb" -- "c0489d87-8c78-4eaf-8870-50ed5be507fe"
+"0c7fcd2a-c7a7-4e16-807b-9be7df46bf1c" [label="+" color=red fontcolor=red fontsize=12]
+"4a5b5830-0e2d-483b-92c1-9e60fd33ec36" -- "0c7fcd2a-c7a7-4e16-807b-9be7df46bf1c"
+"4a5b5830-0e2d-483b-92c1-9e60fd33ec36" -- "c2872dd4-1364-42f5-8591-06106733de2b"
+"c2872dd4-1364-42f5-8591-06106733de2b" [label=" OPERATION " shape=box]
+"c2872dd4-1364-42f5-8591-06106733de2b" -- "76a0437a-0adc-4370-91db-8579feb2de76"
+"76a0437a-0adc-4370-91db-8579feb2de76" [label=" OPERATION " shape=box]
+"76a0437a-0adc-4370-91db-8579feb2de76" -- "a039b996-efb5-4e13-bb3f-3f7d692a2eb0"
+"a039b996-efb5-4e13-bb3f-3f7d692a2eb0" [label=" LITERAL " shape=box]
+"95c53cd7-1f26-4d8e-b9d7-a38b750a1d2b" [label="50.00" color=green fontcolor=green fontsize=12]
+"a039b996-efb5-4e13-bb3f-3f7d692a2eb0" -- "95c53cd7-1f26-4d8e-b9d7-a38b750a1d2b"
+"8d2f0a8e-e126-41db-8c8e-46e7aa76116d" [label="/" color=red fontcolor=red fontsize=12]
+"76a0437a-0adc-4370-91db-8579feb2de76" -- "8d2f0a8e-e126-41db-8c8e-46e7aa76116d"
+"76a0437a-0adc-4370-91db-8579feb2de76" -- "78b4e5fa-3406-4eb6-8726-d495264ad1a0"
+"78b4e5fa-3406-4eb6-8726-d495264ad1a0" [label=" LITERAL " shape=box]
+"beff4b61-8fb8-415c-a67f-0dc943944401" [label="3.14" color=green fontcolor=green fontsize=12]
+"78b4e5fa-3406-4eb6-8726-d495264ad1a0" -- "beff4b61-8fb8-415c-a67f-0dc943944401"
+"45825a4d-cd4c-4dd2-b694-45ccafcee6a0" [label="-" color=red fontcolor=red fontsize=12]
+"c2872dd4-1364-42f5-8591-06106733de2b" -- "45825a4d-cd4c-4dd2-b694-45ccafcee6a0"
+"c2872dd4-1364-42f5-8591-06106733de2b" -- "c3b32965-6b60-451c-a365-2948b03b9e55"
+"c3b32965-6b60-451c-a365-2948b03b9e55" [label=" LITERAL " shape=box]
+"7f3613be-c5b6-4db6-b205-4ebef8f1c444" [label="2.00" color=green fontcolor=green fontsize=12]
+"c3b32965-6b60-451c-a365-2948b03b9e55" -- "7f3613be-c5b6-4db6-b205-4ebef8f1c444"
 
 }
