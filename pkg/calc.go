@@ -64,10 +64,33 @@ func (c GoCalc) Compile(source string) {
 // encode converts a node from the parsing results into an intruction, that also places ito the program.
 func (c GoCalc) encode(node parc.Result, nextInstruction int) int {
 	switch n := node.(type) {
-	case Operation:
+	//	case Operation:
+	//		nextInstruction = c.encode(n.Operand_A, nextInstruction)
+	//		nextInstruction = c.encode(n.Operand_B, nextInstruction)
+	//		switch n.Operation {
+	//		case "+":
+	//			c.program[nextInstruction] = add
+	//		case "-":
+	//			c.program[nextInstruction] = sub
+	//		case "/":
+	//			c.program[nextInstruction] = div
+	//		case "*":
+	//			c.program[nextInstruction] = mul
+	//		}
+	//		nextInstruction++
+
+	case Term:
 		nextInstruction = c.encode(n.Operand_A, nextInstruction)
 		nextInstruction = c.encode(n.Operand_B, nextInstruction)
-		switch n.Operation {
+		nextInstruction = c.encode(n.Operator, nextInstruction)
+
+	case Expression:
+		nextInstruction = c.encode(n.Operand_A, nextInstruction)
+		nextInstruction = c.encode(n.Operand_B, nextInstruction)
+		nextInstruction = c.encode(n.Operator, nextInstruction)
+
+	case Operator:
+		switch n.Value {
 		case "+":
 			c.program[nextInstruction] = add
 		case "-":
@@ -78,7 +101,8 @@ func (c GoCalc) encode(node parc.Result, nextInstruction int) int {
 			c.program[nextInstruction] = mul
 		}
 		nextInstruction++
-	case Operand:
+
+	case Number:
 		c.program[nextInstruction] = literal(&(c.dataStack), n.Value)
 		nextInstruction++
 	}

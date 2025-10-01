@@ -1,13 +1,13 @@
 @startebnf
 title micro-language example
 
-expression = literal | operation;
+atom = number | '(', [' '], expression, [' '], ')';
 
-operation = '(', expression, [' '], operator, [' '], expression, ')';
+term = atom, [[' '], ('*' | '/'), [' '], atom];
 
-operator = '+' | '-' | '*' | '/';
+expression = term, [[' '], ('+' | '-'), [' '], term];
 
-literal = intNumber | realNumber;
+number = intNumber | realNumber;
 
 intNumber = [sign], digits;
 

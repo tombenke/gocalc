@@ -6,8 +6,26 @@ import (
 	"testing"
 )
 
-func TestLangParseEmpty(t *testing.T) {
+func TestLangParseSingleNumber(t *testing.T) {
 	input := "42"
+	parser := buildParser()
+	parseResults := parser.Parse(&input)
+	assert.NotNil(t, parseResults.Results)
+	assert.Nil(t, parseResults.Err)
+	fmt.Printf("%s => interpreter => %+v\n", input, parseResults)
+}
+
+func TestLangParseSimpleExpression2(t *testing.T) {
+	input := "42+24"
+	parser := buildParser()
+	parseResults := parser.Parse(&input)
+	assert.NotNil(t, parseResults.Results)
+	assert.Nil(t, parseResults.Err)
+	fmt.Printf("%s => interpreter => %+v\n", input, parseResults)
+}
+
+func TestLangParseSimpleExpression3(t *testing.T) {
+	input := "42+24*33"
 	parser := buildParser()
 	parseResults := parser.Parse(&input)
 	assert.NotNil(t, parseResults.Results)
