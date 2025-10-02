@@ -2,7 +2,10 @@ package gocalc
 
 import (
 	"fmt"
+	"github.com/tombenke/gocalc/pkg/buildinfo"
 	"github.com/tombenke/parc"
+	"io"
+	"os"
 	"sync"
 )
 
@@ -10,6 +13,15 @@ const (
 	// The initial size of the data stack
 	DATA_STACK_INIT_SIZE = 100
 )
+
+var debugWriter io.Writer = io.Discard
+
+func init() {
+	fmt.Printf("BuildTags: %+v\nDebugMode: %v\n", buildinfo.BuildTags, buildinfo.DebugMode)
+	if buildinfo.DebugMode {
+		debugWriter = os.Stdout
+	}
+}
 
 // GoCalc is a struct that holds a data stack, a program memory, and an instruction pointer.
 // It implements a minimalistic stack machine that runs the instructions stored in the program memory.
@@ -57,34 +69,24 @@ func (c GoCalc) Compile(source string) {
 	parseResultAST, _ := Parse(source)
 
 	// Encode the parsed results into a series of instructions
+	fmt.Fprintf(debugWriter, "\n# source code: %s\n", source)
+	fmt.Fprintf(debugWriter, "# program code:\n")
 	nextInstruction := c.encode(parseResultAST, 0)
 	c.program[nextInstruction] = nil
+	fmt.Fprintf(debugWriter, "NIL\n\n")
 }
 
 // encode converts a node from the parsing results into an intruction, that also places ito the program.
 func (c GoCalc) encode(node parc.Result, nextInstruction int) int {
 	switch n := node.(type) {
-	//	case Operation:
-	//		nextInstruction = c.encode(n.Operand_A, nextInstruction)
-	//		nextInstruction = c.encode(n.Operand_B, nextInstruction)
-	//		switch n.Operation {
-	//		case "+":
-	//			c.program[nextInstruction] = add
-	//		case "-":
-	//			c.program[nextInstruction] = sub
-	//		case "/":
-	//			c.program[nextInstruction] = div
-	//		case "*":
-	//			c.program[nextInstruction] = mul
-	//		}
-	//		nextInstruction++
-
 	case Term:
+		fmt.Fprintf(debugWriter, "# Term:\n")
 		nextInstruction = c.encode(n.Operand_A, nextInstruction)
 		nextInstruction = c.encode(n.Operand_B, nextInstruction)
 		nextInstruction = c.encode(n.Operator, nextInstruction)
 
 	case Expression:
+		fmt.Fprintf(debugWriter, "# Expression:\n")
 		nextInstruction = c.encode(n.Operand_A, nextInstruction)
 		nextInstruction = c.encode(n.Operand_B, nextInstruction)
 		nextInstruction = c.encode(n.Operator, nextInstruction)
@@ -93,17 +95,22 @@ func (c GoCalc) encode(node parc.Result, nextInstruction int) int {
 		switch n.Value {
 		case "+":
 			c.program[nextInstruction] = add
+			fmt.Fprintf(debugWriter, "ADD\n")
 		case "-":
 			c.program[nextInstruction] = sub
+			fmt.Fprintf(debugWriter, "SUB\n")
 		case "/":
 			c.program[nextInstruction] = div
+			fmt.Fprintf(debugWriter, "DIV\n")
 		case "*":
 			c.program[nextInstruction] = mul
+			fmt.Fprintf(debugWriter, "MUL\n")
 		}
 		nextInstruction++
 
 	case Number:
 		c.program[nextInstruction] = literal(&(c.dataStack), n.Value)
+		fmt.Fprintf(debugWriter, "LIT %v\n", n.Value)
 		nextInstruction++
 	}
 	return nextInstruction

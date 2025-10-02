@@ -4,12 +4,11 @@ version: 3
 
 vars:
   APPNAME: gocalc
-  DEP: ./...
+
+  BUILD_TAGS: -tags DEBUG
 
   GIT_HOOKS_DIR:
     sh: sh -c 'echo "$(pwd)/.git/hooks"'
-
-  UML_DIR: ./out/uml
 
 env:
   GOPRIVATE: github.com/tombenke
@@ -82,17 +81,17 @@ tasks:
   test:
     desc: Run all the go tests
     cmds:
-      - go test -count=1 ./...
+      - go test -count=1 {{.BUILD_TAGS}} ./...
 
   test-verbose:
     desc: Run all the go tests in verbose mode
     cmds:
-      - go test -v -count=1 ./...
+      - go test -v -count=1 {{.BUILD_TAGS}} ./...
 
   test-single:
     desc: Run all the go tests in verbose mode from a single test file
     cmds:
-      - go test -v -count=1  -run={{.CLI_ARGS}} ./...
+      - go test -v -count=1  -run={{.CLI_ARGS}} {{.BUILD_TAGS}} ./...
 
   benchmark:
     desc: Run benchmark tests (INACCURATE, run directly from cli!)
