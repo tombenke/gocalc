@@ -6,44 +6,14 @@ import (
 	"testing"
 )
 
-func TestLangParseSingleNumber(t *testing.T) {
-	input := "42"
+func TestLangParser(t *testing.T) {
 	parser := buildParser()
-	parseResults := parser.Parse(&input)
-	assert.NotNil(t, parseResults.Results)
-	assert.Nil(t, parseResults.Err)
-	fmt.Printf("%s => interpreter => %+v\n", input, parseResults)
-}
 
-func TestLangParseSimpleExpression2(t *testing.T) {
-	input := "42+24"
-	parser := buildParser()
-	parseResults := parser.Parse(&input)
-	assert.NotNil(t, parseResults.Results)
-	assert.Nil(t, parseResults.Err)
-	fmt.Printf("%s => interpreter => %+v\n", input, parseResults)
-}
-
-func TestLangParseSimpleExpression3(t *testing.T) {
-	input := "42+24*33"
-	parser := buildParser()
-	parseResults := parser.Parse(&input)
-	assert.NotNil(t, parseResults.Results)
-	assert.Nil(t, parseResults.Err)
-	fmt.Printf("%s => interpreter => %+v\n", input, parseResults)
-}
-
-func TestLangParse(t *testing.T) {
-	input := "((10. * 2) + ((50.0 / 3.1415) - 2.))"
-	parseResults, err := Parse(input)
-
-	assert.NotNil(t, parseResults)
-	assert.Nil(t, err)
-	fmt.Printf("%s => interpreter => %+v\n", input, parseResults)
-}
-
-func TestPrintAST(t *testing.T) {
-	input := "((10. * 2) + ((50.0 / 3.1415) - 2.))"
-	parseResults, _ := Parse(input)
-	PrintAST(parseResults, input, "../docs/ast.dot")
+	for _, testCase := range testCases {
+		input := testCase.Formula
+		parseResults := parser.Parse(&input)
+		assert.NotNil(t, parseResults.Results)
+		assert.Equal(t, testCase.Error, parseResults.Err)
+		fmt.Printf("\ninterpreter => %+v\n", parseResults)
+	}
 }

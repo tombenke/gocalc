@@ -1,22 +1,8 @@
 package gocalc
 
 import (
-	"bytes"
-	"fmt"
-	"github.com/google/uuid"
-	"github.com/tombenke/go-12f-common/must"
 	"github.com/tombenke/parc"
-	"io"
-	"log"
-	"os"
 )
-
-///type Operation struct {
-///	Tag       string
-///	Operation string
-///	Operand_A parc.Result
-///	Operand_B parc.Result
-///}
 
 type Atom struct {
 	Tag   string
@@ -166,78 +152,4 @@ func buildParser() parc.Parser {
 	})
 
 	return expression
-}
-
-// PrintAST generates a graphviz dot file from the AST tree, that is the result of the parser
-func PrintAST(ast parc.Result, title, fileName string) {
-	var buffer bytes.Buffer
-	fmt.Fprintf(&buffer, `graph {
-	label="%s"
-    fontname="Helvetica,Arial,sans-serif"
-    node [fontname="Helvetica,Arial,sans-serif" margin=0.1 fontcolor=blue fontsize=8 width=0.5 style=filled fillcolor=white color=blue]
-    edge [fontname="Helvetica,Arial,sans-serif"]
-	`, title)
-
-	printASTNode(&buffer, ast, uuid.NewString())
-	fmt.Fprintf(&buffer, "\n}")
-
-	saveBytesToFile(buffer.Bytes(), fileName)
-}
-
-// printAST generates the dot format graph representation of the selected AST node and its children
-func printASTNode(out io.Writer, node parc.Result, nodeID string) {
-	switch n := node.(type) {
-	case Term:
-		op_A_ID := uuid.NewString()
-		operation_ID := uuid.NewString()
-		op_B_ID := uuid.NewString()
-		fmt.Fprintf(out, "\"%s\" [label=\" %s \" shape=box]\n", nodeID, n.Tag)
-		fmt.Fprintf(out, "\"%s\" -- \"%s\"\n", nodeID, op_A_ID)
-		printASTNode(out, n.Operand_A, op_A_ID)
-		printASTNode(out, n.Operator, operation_ID)
-		fmt.Fprintf(out, "\"%s\" -- \"%s\"\n", nodeID, operation_ID)
-		fmt.Fprintf(out, "\"%s\" -- \"%s\"\n", nodeID, op_B_ID)
-		printASTNode(out, n.Operand_B, op_B_ID)
-
-	case Expression:
-		op_A_ID := uuid.NewString()
-		operation_ID := uuid.NewString()
-		op_B_ID := uuid.NewString()
-		fmt.Fprintf(out, "\"%s\" [label=\" %s \" shape=box]\n", nodeID, n.Tag)
-		fmt.Fprintf(out, "\"%s\" -- \"%s\"\n", nodeID, op_A_ID)
-		printASTNode(out, n.Operand_A, op_A_ID)
-		printASTNode(out, n.Operator, operation_ID)
-		fmt.Fprintf(out, "\"%s\" -- \"%s\"\n", nodeID, operation_ID)
-		fmt.Fprintf(out, "\"%s\" -- \"%s\"\n", nodeID, op_B_ID)
-		printASTNode(out, n.Operand_B, op_B_ID)
-
-	case Operator:
-		operator_ID := uuid.NewString()
-		fmt.Fprintf(out, "\"%s\" [label=\" %s \" shape=box]\n", nodeID, n.Tag)
-		fmt.Fprintf(out, "\"%s\" [label=\"%s\" color=red fontcolor=red fontsize=12]\n", operator_ID, n.Value)
-		fmt.Fprintf(out, "\"%s\" -- \"%s\"\n", nodeID, operator_ID)
-
-	case Number:
-		operand_ID := uuid.NewString()
-		fmt.Fprintf(out, "\"%s\" [label=\" %s \" shape=box]\n", nodeID, n.Tag)
-		fmt.Fprintf(out, "\"%s\" [label=\"%.2f\" color=green fontcolor=green fontsize=12]\n", operand_ID, n.Value)
-		fmt.Fprintf(out, "\"%s\" -- \"%s\"\n", nodeID, operand_ID)
-	}
-}
-
-// saveBytesToFile saves the bytes data object into the file
-func saveBytesToFile(data []byte, fileName string) {
-	// Create the output file
-	file, err := os.Create(fileName)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer func() { must.Must(file.Close()) }()
-
-	// Write data into the file
-	_, err = file.Write(data)
-	if err != nil {
-		fmt.Println("Error in write:", err)
-		return
-	}
 }

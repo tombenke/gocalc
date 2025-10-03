@@ -2,10 +2,7 @@ package gocalc
 
 import (
 	"fmt"
-	"github.com/tombenke/gocalc/pkg/buildinfo"
 	"github.com/tombenke/parc"
-	"io"
-	"os"
 	"sync"
 )
 
@@ -13,15 +10,6 @@ const (
 	// The initial size of the data stack
 	DATA_STACK_INIT_SIZE = 100
 )
-
-var debugWriter io.Writer = io.Discard
-
-func init() {
-	fmt.Printf("BuildTags: %+v\nDebugMode: %v\n", buildinfo.BuildTags, buildinfo.DebugMode)
-	if buildinfo.DebugMode {
-		debugWriter = os.Stdout
-	}
-}
 
 // GoCalc is a struct that holds a data stack, a program memory, and an instruction pointer.
 // It implements a minimalistic stack machine that runs the instructions stored in the program memory.
@@ -37,13 +25,19 @@ type GoCalc struct {
 	// program stores the instructions of the program of the calculator
 	program Program
 
+	// debug holds the complete program in string format for debugging purposes
+	debug []string
+
 	// Instruction Pointer. It is an index on the program, and points to the next instruction to execute
 	ip int
+
+	// ast is a kind of Abstract Syntax Tree. It is the results of the last parsing.
+	ast parc.Result
 }
 
 // NewGoCalc Create a new instance of GoCalc
 func NewGoCalc() (*GoCalc, error) {
-	return &GoCalc{dataStack: NewStack(DATA_STACK_INIT_SIZE), program: make([]Instruction, 100), ip: 0, mu: &sync.Mutex{}}, nil
+	return &GoCalc{dataStack: NewStack(DATA_STACK_INIT_SIZE), program: make([]Instruction, 100), debug: []string{}, ip: 0, mu: &sync.Mutex{}}, nil
 }
 
 // GetIP returns with the actual value of the Instruction Pointer
@@ -56,37 +50,49 @@ func (c GoCalc) GetDataStackPointer() int {
 	return c.dataStack.GetPointer()
 }
 
+func (c GoCalc) GetAST() parc.Result {
+	return c.ast
+}
+
+func (c GoCalc) GetProgramDebug() []string {
+	return c.debug
+}
+
 // Compile parses the `source` code, and generates the corresponding sequence of instructions into the `program` store
-func (c GoCalc) Compile(source string) {
+func (c *GoCalc) Compile(source string) {
 
 	c.mu.Lock()
 	defer c.mu.Unlock()
 
 	// Make sure to have an end of an empty program
 	c.program[0] = nil
+	c.debug = c.debug[:0]
 
 	// Parse the source code
-	parseResultAST, _ := Parse(source)
+	parseResultAST, parseError := Parse(source)
+	if parseError != nil {
+		panic("parsing error")
+	}
+
+	c.ast = parseResultAST
 
 	// Encode the parsed results into a series of instructions
-	fmt.Fprintf(debugWriter, "\n# source code: %s\n", source)
-	fmt.Fprintf(debugWriter, "# program code:\n")
-	nextInstruction := c.encode(parseResultAST, 0)
+	nextInstruction := c.encode(c.ast, 0)
 	c.program[nextInstruction] = nil
-	fmt.Fprintf(debugWriter, "NIL\n\n")
+	c.debug = append(c.debug, "NIL")
 }
 
 // encode converts a node from the parsing results into an intruction, that also places ito the program.
-func (c GoCalc) encode(node parc.Result, nextInstruction int) int {
+func (c *GoCalc) encode(node parc.Result, nextInstruction int) int {
 	switch n := node.(type) {
 	case Term:
-		fmt.Fprintf(debugWriter, "# Term:\n")
+		c.debug = append(c.debug, "# Term")
 		nextInstruction = c.encode(n.Operand_A, nextInstruction)
 		nextInstruction = c.encode(n.Operand_B, nextInstruction)
 		nextInstruction = c.encode(n.Operator, nextInstruction)
 
 	case Expression:
-		fmt.Fprintf(debugWriter, "# Expression:\n")
+		c.debug = append(c.debug, "# Expression")
 		nextInstruction = c.encode(n.Operand_A, nextInstruction)
 		nextInstruction = c.encode(n.Operand_B, nextInstruction)
 		nextInstruction = c.encode(n.Operator, nextInstruction)
@@ -95,22 +101,22 @@ func (c GoCalc) encode(node parc.Result, nextInstruction int) int {
 		switch n.Value {
 		case "+":
 			c.program[nextInstruction] = add
-			fmt.Fprintf(debugWriter, "ADD\n")
+			c.debug = append(c.debug, "ADD")
 		case "-":
 			c.program[nextInstruction] = sub
-			fmt.Fprintf(debugWriter, "SUB\n")
+			c.debug = append(c.debug, "SUB")
 		case "/":
 			c.program[nextInstruction] = div
-			fmt.Fprintf(debugWriter, "DIV\n")
+			c.debug = append(c.debug, "DIV")
 		case "*":
 			c.program[nextInstruction] = mul
-			fmt.Fprintf(debugWriter, "MUL\n")
+			c.debug = append(c.debug, "MUL")
 		}
 		nextInstruction++
 
 	case Number:
 		c.program[nextInstruction] = literal(&(c.dataStack), n.Value)
-		fmt.Fprintf(debugWriter, "LIT %v\n", n.Value)
+		c.debug = append(c.debug, fmt.Sprintf("LIT %v\n", n.Value))
 		nextInstruction++
 	}
 	return nextInstruction
@@ -126,7 +132,6 @@ func (c GoCalc) Run() *StackData {
 	defer c.mu.Unlock()
 
 	for {
-		//fmt.Printf("IP: %d, DSP: %d\n", c.GetIP(), c.dataStack.GetPointer())
 		if c.program[c.ip] == nil {
 			break
 		}

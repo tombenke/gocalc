@@ -104,6 +104,16 @@ tasks:
       - go test -coverprofile=c.out -covermode=atomic ./...
       - go tool cover -html=c.out
 
+  generate-diagrams:
+    desc: Generate diagrams of AST trees and code blocks out of the code examples found in the test cases
+    cmds:
+      - |
+        #!bin/bash
+        for f in docs/tc_*.dot; do
+          dotfile=`basename $f .dot`
+          dot -Tsvg $f -o docs/$dotfile.svg
+        done
+
   docs:
     desc: Show API docs
     cmds:

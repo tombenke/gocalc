@@ -2,6 +2,8 @@ package buildinfo
 
 import (
 	"fmt"
+	"io"
+	"os"
 	"runtime/debug"
 	"strings"
 )
@@ -14,6 +16,7 @@ var BuildTags map[string]struct{} = make(map[string]struct{})
 
 // It will be true of the build process is executed with the `-tags DEBUG` flag, otherwise it is false
 var DebugMode bool
+var DebugWriter io.Writer = io.Discard
 
 func init() {
 	var ok bool
@@ -31,4 +34,9 @@ func init() {
 		}
 	}
 	_, DebugMode = BuildTags["DEBUG"]
+
+	if DebugMode {
+		DebugWriter = os.Stdout
+	}
+
 }
