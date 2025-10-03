@@ -1,12 +1,27 @@
 package gocalc
 
 import (
-// "fmt"
+	"fmt"
+	"math"
 )
+
+var constants = map[string]float64{
+	"pi":  math.Pi,
+	"phi": math.Phi,
+	"e":   math.E,
+}
 
 type Program []Instruction
 
 type Instruction func(stack *Stack) error
+
+func constant(stack *Stack, constName string) Instruction {
+	return func(stack *Stack) error {
+		constValue := constants[constName]
+		fmt.Printf("constant %s => %.2f\n", constName, constValue)
+		return stack.Push(StackData(constValue))
+	}
+}
 
 func literal(stack *Stack, value StackData) Instruction {
 	return func(stack *Stack) error {

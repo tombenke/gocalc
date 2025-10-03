@@ -1,6 +1,7 @@
 package gocalc
 
 import (
+	"fmt"
 	"github.com/tombenke/parc"
 )
 
@@ -33,6 +34,11 @@ type Operator struct {
 	Value string
 }
 
+type Constant struct {
+	Tag  string
+	Name string
+}
+
 // The parser instance
 var parser parc.Parser
 
@@ -54,6 +60,7 @@ func Parse(source string) (parc.Result, error) {
 // buildParser creates a parser of the language. It is called by the init function.
 func buildParser() parc.Parser {
 	var atom parc.Parser
+	var constant parc.Parser
 	var term parc.Parser
 	var expression parc.Parser
 	var number parc.Parser
@@ -61,6 +68,16 @@ func buildParser() parc.Parser {
 	var intNumber parc.Parser
 	var mulOperator parc.Parser
 	var addOperator parc.Parser
+
+	constant = *parc.Map(parc.Choice(parc.Str("pi"), parc.Str("phi"), parc.Str("e")), func(in parc.Result) parc.Result {
+		fmt.Printf("CONST: %+v\n", in.(string))
+		return parc.Result(
+			Constant{
+				Tag:  "CONSTANT",
+				Name: in.(string),
+			},
+		)
+	})
 
 	number = *parc.Choice(&realNumber, &intNumber)
 
@@ -94,7 +111,7 @@ func buildParser() parc.Parser {
 		})
 	})
 
-	atom = *parc.Map(parc.Choice(&number, parc.SequenceOf(
+	atom = *parc.Map(parc.Choice(&number, &constant, parc.SequenceOf(
 		parc.Str("("),
 		parc.ZeroOrMore(parc.Cond(parc.IsWhitespace)),
 		&expression,
@@ -104,6 +121,8 @@ func buildParser() parc.Parser {
 		var result parc.Result
 		switch i := in.(type) {
 		case Number:
+			result = parc.Result(i)
+		case Constant:
 			result = parc.Result(i)
 		case []parc.Result:
 			result = parc.Result(i[2])

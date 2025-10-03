@@ -113,6 +113,7 @@ tasks:
           dotfile=`basename $f .dot`
           dot -Tsvg $f -o docs/$dotfile.svg
         done
+      - java -jar ~/bin/plantuml-1.2024.7.jar docs/lang-syntax.uml
 
   docs:
     desc: Show API docs

@@ -116,9 +116,15 @@ func (c *GoCalc) encode(node parc.Result, nextInstruction int) int {
 
 	case Number:
 		c.program[nextInstruction] = literal(&(c.dataStack), n.Value)
-		c.debug = append(c.debug, fmt.Sprintf("LIT %v\n", n.Value))
+		c.debug = append(c.debug, fmt.Sprintf("LIT %v", n.Value))
+		nextInstruction++
+
+	case Constant:
+		c.program[nextInstruction] = constant(&(c.dataStack), n.Name)
+		c.debug = append(c.debug, fmt.Sprintf("CONST %s", n.Name))
 		nextInstruction++
 	}
+
 	return nextInstruction
 }
 

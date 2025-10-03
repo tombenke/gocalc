@@ -1,7 +1,9 @@
 @startebnf
 title micro-language example
 
-atom = number | '(', [' '], expression, [' '], ')';
+constant = 'pi' | phi | 'e';
+
+atom = number | constant | '(', [' '], expression, [' '], ')';
 
 term = atom, [[' '], ('*' | '/'), [' '], atom];
 

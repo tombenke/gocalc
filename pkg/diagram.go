@@ -86,6 +86,12 @@ func printASTNode(out io.Writer, node parc.Result, nodeID string) {
 		fmt.Fprintf(out, "\"%s\" [label=\" %s \" shape=box]\n", nodeID, n.Tag)
 		fmt.Fprintf(out, "\"%s\" [label=\"%.2f\" color=green fontcolor=green fontsize=12]\n", operand_ID, n.Value)
 		fmt.Fprintf(out, "\"%s\" -- \"%s\"\n", nodeID, operand_ID)
+
+	case Constant:
+		operand_ID := uuid.NewString()
+		fmt.Fprintf(out, "\"%s\" [label=\" %s \" shape=box]\n", nodeID, n.Tag)
+		fmt.Fprintf(out, "\"%s\" [label=\"%s\" color=green fontcolor=green fontsize=12]\n", operand_ID, n.Name)
+		fmt.Fprintf(out, "\"%s\" -- \"%s\"\n", nodeID, operand_ID)
 	}
 }
 

@@ -1,7 +1,12 @@
 package gocalc
 
+import (
+	"math"
+)
+
 var (
 	testCases = []TestCase{
+		TestCase{Formula: "pi + 2", Result: math.Pi + 2, Error: nil},
 		TestCase{Formula: "42", Result: 42., Error: nil},
 		TestCase{Formula: "42+24", Result: 66., Error: nil},
 		TestCase{Formula: "42+24*33", Result: 834., Error: nil},
@@ -11,7 +16,7 @@ var (
 		TestCase{Formula: "1 + 2 * 3", Result: 7., Error: nil},
 		TestCase{Formula: "(1 + 2) * 3", Result: 9., Error: nil},
 	}
-	benchmarkFormula = testCases[4].Formula
+	benchmarkFormula = testCases[5].Formula
 )
 
 type TestCase struct {
