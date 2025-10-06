@@ -6,18 +6,27 @@ import (
 	"testing"
 )
 
-// Create and startup a GoCalc component, then compile and run all the test cases
-func TestGoCalc(t *testing.T) {
+// Create and startup a GoCalc component, then compile and run all the test cases with the Run() method
+func TestGoCalcRun(t *testing.T) {
 	calc, err := NewGoCalc()
 	assert.Nil(t, err)
 	for tcIdx, testCase := range testCases {
 		calc.Compile(testCase.Formula)
-		//fmt.Printf("calc: %+v\nIP: %d, DSP: %d\n\n", calc, calc.GetIP(), calc.GetDataStackPointer())
 		result := *calc.Run()
 		assert.Equal(t, testCase.Result, float64(result))
-		fmt.Printf("IP: %d, DSP: %d\nresult: %.2f\n\n", calc.GetIP(), calc.GetDataStackPointer(), result)
 
 		PrintDiagram(calc.GetAST(), calc.GetProgramDebug(), testCase.Formula, fmt.Sprintf("../docs/tc_%d.dot", tcIdx))
+	}
+}
+
+// Create and startup a GoCalc component, then compile and run all the test cases with the RunAST() method
+func TestGoCalcRunAST(t *testing.T) {
+	calc, err := NewGoCalc()
+	assert.Nil(t, err)
+	for _, testCase := range testCases {
+		calc.Compile(testCase.Formula)
+		result := *calc.RunAST()
+		assert.Equal(t, testCase.Result, float64(result))
 	}
 }
 
@@ -36,4 +45,12 @@ func BenchmarkGoCalcRun(b *testing.B) {
 	calc.Compile(benchmarkFormula)
 	b.ResetTimer()
 	calc.Run()
+}
+
+// Do benchmark on runtime of compiled code
+func BenchmarkGoCalcRunAST(b *testing.B) {
+	calc, _ := NewGoCalc()
+	calc.Compile(benchmarkFormula)
+	b.ResetTimer()
+	calc.RunAST()
 }

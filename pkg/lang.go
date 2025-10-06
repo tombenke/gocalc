@@ -1,7 +1,6 @@
 package gocalc
 
 import (
-	"fmt"
 	"github.com/tombenke/parc"
 )
 
@@ -70,7 +69,6 @@ func buildParser() parc.Parser {
 	var addOperator parc.Parser
 
 	constant = *parc.Map(parc.Choice(parc.Str("pi"), parc.Str("phi"), parc.Str("e")), func(in parc.Result) parc.Result {
-		fmt.Printf("CONST: %+v\n", in.(string))
 		return parc.Result(
 			Constant{
 				Tag:  "CONSTANT",

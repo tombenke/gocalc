@@ -2,6 +2,7 @@ package gocalc
 
 import (
 	"fmt"
+	"github.com/tombenke/go-12f-common/must"
 	"github.com/tombenke/parc"
 	"sync"
 )
@@ -69,12 +70,7 @@ func (c *GoCalc) Compile(source string) {
 	c.debug = c.debug[:0]
 
 	// Parse the source code
-	parseResultAST, parseError := Parse(source)
-	if parseError != nil {
-		panic("parsing error")
-	}
-
-	c.ast = parseResultAST
+	c.ast = must.MustVal(Parse(source))
 
 	// Encode the parsed results into a series of instructions
 	nextInstruction := c.encode(c.ast, 0)
@@ -115,12 +111,12 @@ func (c *GoCalc) encode(node parc.Result, nextInstruction int) int {
 		nextInstruction++
 
 	case Number:
-		c.program[nextInstruction] = literal(&(c.dataStack), n.Value)
+		c.program[nextInstruction] = literal(n.Value)
 		c.debug = append(c.debug, fmt.Sprintf("LIT %v", n.Value))
 		nextInstruction++
 
 	case Constant:
-		c.program[nextInstruction] = constant(&(c.dataStack), n.Name)
+		c.program[nextInstruction] = constant(n.Name)
 		c.debug = append(c.debug, fmt.Sprintf("CONST %s", n.Name))
 		nextInstruction++
 	}
@@ -141,10 +137,7 @@ func (c GoCalc) Run() *StackData {
 		if c.program[c.ip] == nil {
 			break
 		}
-		err := c.program[c.ip](&(c.dataStack))
-		if err != nil {
-			panic(fmt.Sprintf("GoCalc internal error in executing at IP: %d", c.ip))
-		}
+		must.Must(c.program[c.ip](&(c.dataStack)))
 		c.ip++
 	}
 
@@ -153,10 +146,58 @@ func (c GoCalc) Run() *StackData {
 		return nil
 	}
 
-	result, err := c.dataStack.Pop()
-	if err != nil {
-		panic(fmt.Sprintf("GoCalc internal error in getting the result of the program IP: %d", c.ip))
-	}
+	result := must.MustVal(c.dataStack.Pop())
 
 	return &result
+}
+
+// RunAST executes the instructions represented by the AST resulted by parsing.
+func (c GoCalc) RunAST() *StackData {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+
+	// Traverse the AST and execute the instructions
+	c.executeASTNode(c.ast)
+
+	// Check if Data Stack is empty
+	if c.GetDataStackPointer() < 0 {
+		return nil
+	}
+
+	result := must.MustVal(c.dataStack.Pop())
+
+	return &result
+}
+
+// executeASTNode converts a node from the parsing results into an intruction, that also places ito the program.
+func (c *GoCalc) executeASTNode(node parc.Result) {
+	switch n := node.(type) {
+	case Term:
+		c.executeASTNode(n.Operand_A)
+		c.executeASTNode(n.Operand_B)
+		c.executeASTNode(n.Operator)
+
+	case Expression:
+		c.executeASTNode(n.Operand_A)
+		c.executeASTNode(n.Operand_B)
+		c.executeASTNode(n.Operator)
+
+	case Operator:
+		switch n.Value {
+		case "+":
+			must.Must(add(&(c.dataStack)))
+		case "-":
+			must.Must(sub(&(c.dataStack)))
+		case "/":
+			must.Must(div(&(c.dataStack)))
+		case "*":
+			must.Must(mul(&(c.dataStack)))
+		}
+
+	case Number:
+		must.Must(literal(n.Value)(&(c.dataStack)))
+
+	case Constant:
+		must.Must(constant(n.Name)(&(c.dataStack)))
+	}
 }

@@ -38,3 +38,12 @@ func (s *Stack) Pop() (StackData, error) {
 func (s *Stack) GetPointer() int {
 	return s.pointer
 }
+
+func (s *Stack) Print() {
+
+	fmt.Printf("\nData Stack: [")
+	for idx := 0; idx < s.pointer; idx++ {
+		fmt.Printf("%.2f, ", s.data[idx])
+	}
+	fmt.Println("]")
+}
