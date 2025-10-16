@@ -58,64 +58,61 @@ func Parse(source string) (parc.Result, error) {
 
 // buildParser creates a parser of the language. It is called by the init function.
 func buildParser() parc.Parser {
-	var atom parc.Parser
-	var constant parc.Parser
-	var term parc.Parser
 	var expression parc.Parser
-	var number parc.Parser
-	var realNumber parc.Parser
-	var intNumber parc.Parser
-	var mulOperator parc.Parser
-	var addOperator parc.Parser
 
-	constant = *parc.Map(parc.Choice(parc.Str("pi"), parc.Str("phi"), parc.Str("e")), func(in parc.Result) parc.Result {
-		return parc.Result(
-			Constant{
-				Tag:  "CONSTANT",
-				Name: in.(string),
-			},
-		)
-	})
-
-	number = *parc.Choice(&realNumber, &intNumber)
-
-	intNumber = *parc.Map(parc.Integer, func(in parc.Result) parc.Result {
-		operand := Number{
-			Tag:   "NUMBER",
-			Value: StackData(in.(int)),
-		}
-		return parc.Result(operand)
-	})
-
-	realNumber = *parc.Map(parc.RealNumber, func(in parc.Result) parc.Result {
-		operand := Number{
-			Tag:   "NUMBER",
-			Value: StackData(in.(float64)),
-		}
-		return parc.Result(operand)
-	})
-
-	mulOperator = *parc.Map(parc.Choice(parc.Str("*"), parc.Str("/")), func(in parc.Result) parc.Result {
-		return parc.Result(Operator{
-			Tag:   "OPERATOR",
-			Value: in.(string),
+	constant := *parc.Map(parc.Choice(parc.Str("pi"), parc.Str("phi"), parc.Str("e")).As("constant"),
+		func(in parc.Result) parc.Result {
+			return parc.Result(
+				Constant{
+					Tag:  "CONSTANT",
+					Name: in.(string),
+				},
+			)
 		})
-	})
 
-	addOperator = *parc.Map(parc.Choice(parc.Str("+"), parc.Str("-")), func(in parc.Result) parc.Result {
-		return parc.Result(Operator{
-			Tag:   "OPERATOR",
-			Value: in.(string),
+	intNumber := *parc.Map(parc.Integer.As("intNumber"),
+		func(in parc.Result) parc.Result {
+			operand := Number{
+				Tag:   "NUMBER",
+				Value: StackData(in.(int)),
+			}
+			return parc.Result(operand)
 		})
-	})
 
-	atom = *parc.Map(parc.Choice(&number, &constant, parc.SequenceOf(
+	realNumber := *parc.Map(parc.RealNumber.As("realNumber"),
+		func(in parc.Result) parc.Result {
+			operand := Number{
+				Tag:   "NUMBER",
+				Value: StackData(in.(float64)),
+			}
+			return parc.Result(operand)
+		})
+
+	number := *parc.Choice(&realNumber, &intNumber).As("number")
+
+	mulOperator := *parc.Map(parc.Choice(parc.Str("*"), parc.Str("/")).As("mulOperator"),
+		func(in parc.Result) parc.Result {
+			return parc.Result(Operator{
+				Tag:   "OPERATOR",
+				Value: in.(string),
+			})
+		})
+
+	addOperator := *parc.Map(parc.Choice(parc.Str("+"), parc.Str("-")).As("addOperator"),
+		func(in parc.Result) parc.Result {
+			return parc.Result(Operator{
+				Tag:   "OPERATOR",
+				Value: in.(string),
+			})
+		})
+
+	atom := *parc.Map(parc.Choice(&number, &constant, parc.SequenceOf(
 		parc.Str("("),
 		parc.ZeroOrMore(parc.Cond(parc.IsWhitespace)),
 		&expression,
 		parc.ZeroOrMore(parc.Cond(parc.IsWhitespace)),
 		parc.Str(")"),
-	)), func(in parc.Result) parc.Result {
+	)).As("atom"), func(in parc.Result) parc.Result {
 		var result parc.Result
 		switch i := in.(type) {
 		case Number:
@@ -128,7 +125,7 @@ func buildParser() parc.Parser {
 		return result
 	})
 
-	term = *parc.Map(parc.SequenceOf(
+	term := *parc.Map(parc.SequenceOf(
 		&atom,
 		parc.ZeroOrMore(
 			parc.SequenceOf(
@@ -138,7 +135,7 @@ func buildParser() parc.Parser {
 				&atom,
 			),
 		),
-	), func(in parc.Result) parc.Result {
+	).As("term"), func(in parc.Result) parc.Result {
 		arr := in.([]parc.Result)
 		arr1 := arr[1].([]parc.Result)
 		if len(arr1) == 0 {
@@ -158,7 +155,7 @@ func buildParser() parc.Parser {
 				&term,
 			),
 		),
-	), func(in parc.Result) parc.Result {
+	).As("expression"), func(in parc.Result) parc.Result {
 		arr := in.([]parc.Result)
 		arr1 := arr[1].([]parc.Result)
 		if len(arr1) == 0 {
@@ -168,5 +165,14 @@ func buildParser() parc.Parser {
 		return parc.Result(Expression{Tag: "EXPRESSION", Operand_A: arr[0], Operator: arr11[1].(Operator), Operand_B: arr11[3]})
 	})
 
-	return expression
+	formula := *parc.Map(parc.SequenceOf(
+		parc.StartOfInput(),
+		&expression,
+		parc.EndOfInput(),
+	).As("formula"), func(in parc.Result) parc.Result {
+		arrResult := in.([]parc.Result)
+		return parc.Result(arrResult[1])
+	})
+
+	return formula
 }

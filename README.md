@@ -1,7 +1,5 @@
 # gocalc
 
-[![Continuous Integration Status](https://github.com/lsy-netline-hubcontrol/gocalc/workflows/Continuous%20Integration/badge.svg)](https://github.com/lsy-netline-hubcontrol/gocalc)
-
 ## About
 
 Built-in calculator package for Golang
