@@ -6,7 +6,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/stretchr/testify v1.9.0
 	github.com/tombenke/go-12f-common v1.0.0
-	github.com/tombenke/parc v0.6.1
+	github.com/tombenke/parc v0.7.1
 )
 
 require (

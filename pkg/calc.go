@@ -133,10 +133,7 @@ func (c GoCalc) Run() *StackData {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 
-	for {
-		if c.program[c.ip] == nil {
-			break
-		}
+	for c.program[c.ip] != nil {
 		must.Must(c.program[c.ip](&(c.dataStack)))
 		c.ip++
 	}

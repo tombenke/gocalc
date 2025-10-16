@@ -41,11 +41,11 @@ subgraph cluster_1 {
 }
 
 func PrintMachineCode(out io.Writer, machineCode []string) {
-	fmt.Fprintf(out, `    machine_code [label=<`)
+	must.MustVal(fmt.Fprintf(out, `    machine_code [label=<`))
 	for _, code := range machineCode {
-		fmt.Fprintf(out, `%s<BR ALIGN="LEFT"/>`, code)
+		must.MustVal(fmt.Fprintf(out, `%s<BR ALIGN="LEFT"/>`, code))
 	}
-	fmt.Fprintf(out, `> fontname="Courier:bold" shape=none fontcolor=black fontsize=14 nojustify=true];`)
+	must.MustVal(fmt.Fprintf(out, `> fontname="Courier:bold" shape=none fontcolor=black fontsize=14 nojustify=true];`))
 }
 
 // printAST generates the dot format graph representation of the selected AST node and its children
@@ -55,43 +55,43 @@ func printASTNode(out io.Writer, node parc.Result, nodeID string) {
 		op_A_ID := uuid.NewString()
 		operation_ID := uuid.NewString()
 		op_B_ID := uuid.NewString()
-		fmt.Fprintf(out, "    \"%s\" [label=\" %s \" shape=box]\n", nodeID, n.Tag)
-		fmt.Fprintf(out, "    \"%s\" -- \"%s\"\n", nodeID, op_A_ID)
+		must.MustVal(fmt.Fprintf(out, "    \"%s\" [label=\" %s \" shape=box]\n", nodeID, n.Tag))
+		must.MustVal(fmt.Fprintf(out, "    \"%s\" -- \"%s\"\n", nodeID, op_A_ID))
 		printASTNode(out, n.Operand_A, op_A_ID)
 		printASTNode(out, n.Operator, operation_ID)
-		fmt.Fprintf(out, "    \"%s\" -- \"%s\"\n", nodeID, operation_ID)
-		fmt.Fprintf(out, "    \"%s\" -- \"%s\"\n", nodeID, op_B_ID)
+		must.MustVal(fmt.Fprintf(out, "    \"%s\" -- \"%s\"\n", nodeID, operation_ID))
+		must.MustVal(fmt.Fprintf(out, "    \"%s\" -- \"%s\"\n", nodeID, op_B_ID))
 		printASTNode(out, n.Operand_B, op_B_ID)
 
 	case Expression:
 		op_A_ID := uuid.NewString()
 		operation_ID := uuid.NewString()
 		op_B_ID := uuid.NewString()
-		fmt.Fprintf(out, "    \"%s\" [label=\" %s \" shape=box]\n", nodeID, n.Tag)
-		fmt.Fprintf(out, "    \"%s\" -- \"%s\"\n", nodeID, op_A_ID)
+		must.MustVal(fmt.Fprintf(out, "    \"%s\" [label=\" %s \" shape=box]\n", nodeID, n.Tag))
+		must.MustVal(fmt.Fprintf(out, "    \"%s\" -- \"%s\"\n", nodeID, op_A_ID))
 		printASTNode(out, n.Operand_A, op_A_ID)
 		printASTNode(out, n.Operator, operation_ID)
-		fmt.Fprintf(out, "    \"%s\" -- \"%s\"\n", nodeID, operation_ID)
-		fmt.Fprintf(out, "    \"%s\" -- \"%s\"\n", nodeID, op_B_ID)
+		must.MustVal(fmt.Fprintf(out, "    \"%s\" -- \"%s\"\n", nodeID, operation_ID))
+		must.MustVal(fmt.Fprintf(out, "    \"%s\" -- \"%s\"\n", nodeID, op_B_ID))
 		printASTNode(out, n.Operand_B, op_B_ID)
 
 	case Operator:
 		operator_ID := uuid.NewString()
-		fmt.Fprintf(out, "    \"%s\" [label=\" %s \" shape=box]\n", nodeID, n.Tag)
-		fmt.Fprintf(out, "    \"%s\" [label=\"%s\" color=red fontcolor=red fontsize=12]\n", operator_ID, n.Value)
-		fmt.Fprintf(out, "    \"%s\" -- \"%s\"\n", nodeID, operator_ID)
+		must.MustVal(fmt.Fprintf(out, "    \"%s\" [label=\" %s \" shape=box]\n", nodeID, n.Tag))
+		must.MustVal(fmt.Fprintf(out, "    \"%s\" [label=\"%s\" color=red fontcolor=red fontsize=12]\n", operator_ID, n.Value))
+		must.MustVal(fmt.Fprintf(out, "    \"%s\" -- \"%s\"\n", nodeID, operator_ID))
 
 	case Number:
 		operand_ID := uuid.NewString()
-		fmt.Fprintf(out, "    \"%s\" [label=\" %s \" shape=box]\n", nodeID, n.Tag)
-		fmt.Fprintf(out, "    \"%s\" [label=\"%.2f\" color=green fontcolor=green fontsize=12]\n", operand_ID, n.Value)
-		fmt.Fprintf(out, "    \"%s\" -- \"%s\"\n", nodeID, operand_ID)
+		must.MustVal(fmt.Fprintf(out, "    \"%s\" [label=\" %s \" shape=box]\n", nodeID, n.Tag))
+		must.MustVal(fmt.Fprintf(out, "    \"%s\" [label=\"%.2f\" color=green fontcolor=green fontsize=12]\n", operand_ID, n.Value))
+		must.MustVal(fmt.Fprintf(out, "    \"%s\" -- \"%s\"\n", nodeID, operand_ID))
 
 	case Constant:
 		operand_ID := uuid.NewString()
-		fmt.Fprintf(out, "    \"%s\" [label=\" %s \" shape=box]\n", nodeID, n.Tag)
-		fmt.Fprintf(out, "    \"%s\" [label=\"%s\" color=green fontcolor=green fontsize=12]\n", operand_ID, n.Name)
-		fmt.Fprintf(out, "    \"%s\" -- \"%s\"\n", nodeID, operand_ID)
+		must.MustVal(fmt.Fprintf(out, "    \"%s\" [label=\" %s \" shape=box]\n", nodeID, n.Tag))
+		must.MustVal(fmt.Fprintf(out, "    \"%s\" [label=\"%s\" color=green fontcolor=green fontsize=12]\n", operand_ID, n.Name))
+		must.MustVal(fmt.Fprintf(out, "    \"%s\" -- \"%s\"\n", nodeID, operand_ID))
 	}
 }
 
